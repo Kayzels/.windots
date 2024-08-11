@@ -1,0 +1,9 @@
+--theme="tokyonight_storm"
+
+--color="always"
+
+--italic-text=always
+
+--style="numbers"
+
+--pager="less -FR -Da"
