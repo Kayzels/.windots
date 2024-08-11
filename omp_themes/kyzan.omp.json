@@ -1,0 +1,134 @@
+{
+  "$schema": "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json",
+  "version": 2,
+  "final_space": false,
+  "pwd": "osc7",
+  "palette": {
+    "black": "#1d202f",
+    "green": "#9ece6a",
+    "blue": "#7aa2f7",
+    "magenta": "#bb9af7",
+    "teal": "#1abc9c",
+    "red": "#f7768e",
+    "orange": "#ff9e64",
+    "blue2": "#0db9d7",
+    "gutter_back": "#3b4261",
+    "bg_statusline": "#1f2335",
+    "fg_sidebar": "#a9b1d6"
+  },
+  "blocks": [
+    {
+      "type": "prompt",
+      "alignment": "left",
+      "segments": [
+        {
+          "type": "os",
+          "style": "diamond",
+          "background": "p:blue",
+          "foreground": "p:black",
+          "template": " {{ .Icon }} {{ .HostName }} "
+        },
+        {
+          "type": "path",
+          "style": "powerline",
+          "powerline_symbol": "",
+          "background": "p:gutter_back",
+          "foreground": "p:blue",
+          "template": "   {{ .Path }} ",
+          "properties": {
+            "folder_icon": " ",
+            "folder_separator_icon": "  ",
+            "home_icon": " ",
+            "style": "agnoster_short",
+            "mapped_locations": {
+              "~/Documents/Unisa": " "
+            }
+          }
+        },
+        {
+          "type": "git",
+          "style": "powerline",
+          "powerline_symbol": "",
+          "foreground": "p:fg_sidebar",
+          "background": "p:bg_statusline",
+          "template": " {{ .UpstreamIcon }}{{ .HEAD }}{{ if .Working.Changed }}   {{ .Working.Added }}  {{ .Working.Modified }}  {{ .Working.Deleted }} {{ end }}",
+          "properties": {
+            "branch_icon": " ",
+            "fetch_stash_count": true,
+            "fetch_status": true,
+            "fetch_upstream_icon": true
+          }
+        },
+        {
+          "type": "status",
+          "style": "powerline",
+          "powerline_symbol": "",
+          "foreground": "p:black",
+          "background": "p:green",
+          "background_templates": [
+            "{{ if gt .Code 0 }}p:red{{ end }}"
+          ],
+          "template": " {{ if gt .Code 0 }}   {{ else }}   {{ end }}"
+        }
+      ]
+    },
+    {
+      "type": "prompt",
+      "alignment": "right",
+      "segments": [
+        {
+          "type": "executiontime",
+          "style": "powerline",
+          "powerline_symbol": "",
+          "foreground": "p:blue",
+          "background": "p:gutter_back",
+          "template": "  {{ .FormattedMs }} ",
+          "properties": {
+            "always_enabled": true
+          },
+          "invert_powerline": true
+        },
+        {
+          "type": "time",
+          "style": "diamond",
+          "invert_powerline": true,
+          "background": "p:blue",
+          "foreground": "p:black",
+          "template": "  {{ .CurrentDate | date .Format }} ",
+          "properties": {
+            "time_format": "3:04 PM"
+          }
+        }
+      ]
+    },
+    {
+      "type": "prompt",
+      "alignment": "left",
+      "segments": [
+        {
+          "type": "root",
+          "style": "plain",
+          "foreground": "p:orange",
+          "template": " "
+        },
+        {
+          "type": "text",
+          "style": "plain",
+          "foreground": "p:teal",
+          "template": "<b>{{ .UserName }}</b> "
+        }
+      ],
+      "newline": true
+    }
+  ],
+  "secondary_prompt": {
+    "background": "transparent",
+    "foreground": "p:green",
+    "template": " "
+  },
+  "transient_prompt": {
+    "background": "transparent",
+    "foreground": "p:teal",
+    "template": "<b>{{ .UserName }}</b> "
+  }
+}

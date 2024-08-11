@@ -1,0 +1,20 @@
+lastupdatecheck: 0
+recentrepos:
+    - C:\Users\Kyzan\.windots
+    - C:\Users\Kyzan\.windots\nvim
+    - D:\Kyzan\Unisa\Third Year\COS3721 Operating Systems and Architecture\COS3721 Notes
+    - C:\Users\Kyzan\AppData\Local\nvim
+    - D:\Kyzan\Unisa\Third Year\STA1610 Introduction to Statistics\STA1610 Notes
+    - D:\Kyzan\Unisa\Third Year\INF3720 Human Computer Interaction II\Assessments\Assessment 2
+    - D:\Kyzan\Unisa\Third Year\INF3707 Database Design and Implementation\Assessments\Assessment 3
+startuppopupversion: 5
+lastversion: 0.43.1
+customcommandshistory: []
+hidecommandlog: false
+ignorewhitespaceindiffview: false
+diffcontextsize: 3
+renamesimilaritythreshold: 50
+localbranchsortorder: recency
+remotebranchsortorder: alphabetical
+gitlogorder: topo-order
+gitlogshowgraph: always

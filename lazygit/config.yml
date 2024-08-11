@@ -1,0 +1,12 @@
+gui:
+  border: 'rounded'
+  nerdFontsVersion: 3
+  sidePanelWidth: 0.5
+  expandFocusedSidePanel: true
+  theme:
+    activeBorderColor:
+      - '#589ed7'
+      - bold
+git:
+  log:
+    showGraph: always
