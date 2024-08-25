@@ -119,6 +119,28 @@ $Env:FZF_DEFAULT_COMMAND = "fd --type f"
 Set-PsFzfOption -EnableFd -EnableAliasFuzzyHistory -EnableAliasFuzzySetLocation
 
 # -------------------------------------------
+# Remote
+# -------------------------------------------
+
+$Env:NVIM_LISTEN_ADDRESS = "\\.\pipe\nvim-nvr"
+
+# NOTE: Pure nvim way doesn't work properly, so ensure nvim-remote is installed by running
+# pip install nvim-remote
+
+function nvr
+{
+  &(Get-Command nvr -CommandType Application) -s --nostart -p $args;
+  if ($LastExitCode -ne 0)
+  {
+    nve $args
+  }
+}
+function nve
+{
+  nvim --listen "$env:NVIM_LISTEN_ADDRESS" $args
+}
+
+# -------------------------------------------
 # Prompt Setup
 # -------------------------------------------
 oh-my-posh init pwsh --config "$HOME\omp_themes\kyzan.omp.json" | Invoke-Expression
