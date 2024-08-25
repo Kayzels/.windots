@@ -126,6 +126,22 @@ config.keys = {
 		mods = "ALT",
 		action = wezterm.action.EmitEvent("toggle-acrylic"),
 	},
+	{
+		key = "t",
+		mods = "CTRL",
+		action = act.SendKey({
+			key = "t",
+			mods = "CTRL",
+		}),
+	},
+	{
+		key = "c",
+		mods = "ALT",
+		action = act.SendKey({
+			key = "c",
+			mods = "ALT",
+		}),
+	},
 }
 
 return config

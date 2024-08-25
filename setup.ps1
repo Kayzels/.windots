@@ -22,6 +22,7 @@ $scoopDeps = @(
   "extras/lazygit"
   "less"
   "poppler"
+  "psfzf"
   "ripgrep"
   "sed"
   "terminal-icons"

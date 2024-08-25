@@ -44,7 +44,7 @@ Import-Module -Name Terminal-Icons
 # Zoxide
 # -------------------------------------------
 
-Invoke-Expression (& { (zoxide init powershell | Out-String) })
+Invoke-Expression (& { (zoxide init powershell --hook pwd | Out-String) })
 
 # -------------------------------------------
 # Yazi
@@ -114,6 +114,9 @@ $Env:FZF_DEFAULT_OPTS = @"
 --preview-window border-rounded:wrap
 --bind 'ctrl-/:toggle-preview'
 "@
+
+$Env:FZF_DEFAULT_COMMAND = "fd --type f"
+Set-PsFzfOption -EnableFd -EnableAliasFuzzyHistory -EnableAliasFuzzySetLocation
 
 # -------------------------------------------
 # Prompt Setup
