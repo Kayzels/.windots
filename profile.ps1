@@ -88,32 +88,7 @@ function Find-Windots
 # -------------------------------------------
 $Env:WindotsRepo = Find-Windots -ProfilePath $PSScriptRoot
 $Env:BAT_CONFIG_DIR = "$Env:WindotsRepo\bat"
-
-$Env:FZF_DEFAULT_OPTS = @"
---height 40%
---layout reverse
---border rounded
---info inline-right
---highlight-line
---ansi
---color bg+:#2d3f76
---color border:#589ed7
---color fg:#c8d3f5
---color gutter:-1
---color header:#ff966c
---color hl+:#65bcff
---color hl:#65bcff
---color info:#545c7e
---color marker:#ff007c
---color pointer:#ff007c
---color prompt:#65bcff
---color query:#c8d3f5:regular
---color scrollbar:#589ed7
---color separator:#ff966c
---color spinner:#ff007c
---preview-window border-rounded:wrap
---bind 'ctrl-/:toggle-preview'
-"@
+$Env:FZF_DEFAULT_OPTS_FILE = "$Env:WindotsRepo\fzf\config"
 
 $Env:FZF_DEFAULT_COMMAND = "fd --type f"
 Set-PsFzfOption -EnableFd -EnableAliasFuzzyHistory -EnableAliasFuzzySetLocation
@@ -145,3 +120,93 @@ function nve
 # -------------------------------------------
 oh-my-posh init pwsh --config "$HOME\omp_themes\kyzan.omp.json" | Invoke-Expression
 
+# -------------------------------------------
+# Color scheme changing
+# -------------------------------------------
+
+function SetColorMode
+{
+  param(
+    [string]$ColorMode
+  )
+  if ($ColorMode -ne "light" -and $ColorMode -ne "dark")
+  {
+    return
+  }
+
+  # Define theme names
+  $darkTheme = "tokyonight_moon"
+  $lightTheme = "catppuccin-latte"
+
+  # Clear environment variables if needed
+  $Env:BAT_THEME = ""
+  $Env:FZF_DEFAULT_OPTS = ""
+
+  Set-ItemProperty -Path HKCU:\Environment -Name 'NvimColorMode' -Value $ColorMode
+
+  # Set Lazygit colors
+  $lazygitConfigFile = "$Env:WindotsRepo\lazygit\config.yml"
+  $lazygitDefaults = Get-Content "$Env:WindotsRepo\lazygit\default.txt"
+  $lazygitTheme = Get-Content "$Env:WindotsRepo\lazygit\$ColorMode.txt"
+  Set-Content -Path $lazygitConfigFile -Value $lazygitDefaults
+  Add-Content -Path $lazygitConfigFile -Value $lazygitTheme
+
+  # Set fzf options
+  $fzfDefaults = Get-Content "$Env:WindotsRepo\fzf\default"
+  $fzfTheme = Get-Content "$Env:WindotsRepo\fzf\$ColorMode"
+  Set-Content -Path $Env:FZF_DEFAULT_OPTS_FILE -Value $fzfDefaults
+  Add-Content -Path $Env:FZF_DEFAULT_OPTS_FILE -Value $fzfTheme
+
+  if ($ColorMode -eq "light")
+  {
+    $sedPattern = 's/' + $darkTheme + '/' + $lightTheme + '/'
+    $ompSedPattern = 's/"ColorMode": "dark"/"ColorMode": "light"/'
+  } else
+  {
+    $sedPattern = 's/' + $lightTheme + '/' + $darkTheme + '/'
+    $ompSedPattern = 's/"ColorMode": "light"/"ColorMode": "dark"/'
+  }
+
+  # Update yazi flavor using sed
+  sed -i $sedPattern $Env:WindotsRepo\yazi\config\theme.toml
+
+  # Update Wezterm colorscheme using sed rather than uservars
+  sed -i $sedPattern $Env:WindotsRepo\wezterm\colorscheme.lua
+
+  # Update Oh My Posh palette using sed to update var
+  sed -i $ompSedPattern $Env:WindotsRepo\omp_themes\kyzan.omp.json
+
+  # Update Bat to use correct theme using sed
+  sed -i $sedPattern $Env:WindotsRepo\bat\config
+}
+
+function DefaultColorMode
+{
+  $mode = [Environment]::GetEnvironmentVariable('NvimColorMode', 'User')
+  if ($null -eq $mode)
+  {
+    SetColorMode "dark";
+  } else
+  {
+    SetColorMode $mode
+  }
+}
+
+Function nvim
+{
+  $mode = [Environment]::GetEnvironmentVariable('NvimColorMode', 'User')
+  $nvim_cmd = 'let g:color_mode = "' + $mode + '"'
+  nvim.exe --cmd $nvim_cmd
+}
+
+Function setd
+{
+  SetColorMode dark
+}
+
+Function setl
+{
+  SetColorMode light
+}
+
+DefaultColorMode

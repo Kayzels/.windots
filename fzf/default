@@ -1,0 +1,9 @@
+--height 40%
+--multi
+--layout reverse
+--border rounded
+--info inline-right
+--highlight-line
+--ansi
+--preview-window border-rounded:wrap
+--bind 'ctrl-/:toggle-preview'

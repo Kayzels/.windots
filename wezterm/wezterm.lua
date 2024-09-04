@@ -7,10 +7,15 @@ local opacity = 0.92
 
 config.default_prog = { "pwsh" }
 
-config.color_scheme = "tokyonight_moon"
-config.colors = {
-	background = "#1d262a",
+local scheme = wezterm.get_builtin_color_schemes()["tokyonight_moon"]
+scheme.background = "#1d262a"
+
+config.color_schemes = {
+	["tokyonight_moon"] = scheme,
 }
+
+local colorscheme = require("colorscheme")
+colorscheme.apply_to_config(config)
 
 config.front_end = "WebGpu"
 

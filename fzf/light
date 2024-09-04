@@ -1,0 +1,13 @@
+--color bg+:#ccd0da
+--color bg:#eff1f5
+--color fg:#4c4f69
+--color fg+:#4c4f69
+--color header:#d20f39
+--color hl:#d20f39
+--color hl+:#d20f39
+--color info:#8839ef
+--color marker:#7287fd
+--color pointer:#dc8a78
+--color prompt:#8839ef
+--color spinner:#dc8a78
+--color selected-bg:#bcc0cc

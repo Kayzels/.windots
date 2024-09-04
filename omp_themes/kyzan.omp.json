@@ -3,18 +3,35 @@
   "version": 2,
   "final_space": false,
   "pwd": "osc7",
-  "palette": {
-    "black": "#1d202f",
-    "green": "#9ece6a",
-    "blue": "#7aa2f7",
-    "magenta": "#bb9af7",
-    "teal": "#1abc9c",
-    "red": "#f7768e",
-    "orange": "#ff9e64",
-    "blue2": "#0db9d7",
-    "gutter_back": "#3b4261",
-    "bg_statusline": "#1f2335",
-    "fg_sidebar": "#a9b1d6"
+  "var": {
+    "ColorMode": "dark"
+  },
+  "palettes": {
+    "template": "{{  if eq .Var.ColorMode \"light\"}}catppuccin-latte{{ else }}tokyonight_moon{{ end }}",
+    "list": {
+      "tokyonight_moon": {
+        "base": "#1b1d2b",
+        "green": "#c3e88d",
+        "blue": "#82aaff",
+        "teal": "#4fd6be",
+        "red": "#ff757f",
+        "orange": "#ff966c",
+        "gutter_back": "#3b4261",
+        "bg_statusline": "#1e2030",
+        "fg_sidebar": "#a9b1d6"
+      },
+      "catppuccin-latte": {
+        "base": "#eff1f5",
+        "green": "#40a02b",
+        "blue": "#1e66f5",
+        "teal": "#179299",
+        "red": "#d20f39",
+        "orange": "#fe640b",
+        "gutter_back": "#ccd0da",
+        "bg_statusline": "#eff1f5",
+        "fg_sidebar": "#4c4c69"
+      }
+    }
   },
   "blocks": [
     {
@@ -25,7 +42,7 @@
           "type": "os",
           "style": "diamond",
           "background": "p:blue",
-          "foreground": "p:black",
+          "foreground": "p:base",
           "template": " {{ .Icon }} {{ .HostName }} "
         },
         {
@@ -63,7 +80,7 @@
           "type": "status",
           "style": "powerline",
           "powerline_symbol": "",
-          "foreground": "p:black",
+          "foreground": "p:base",
           "background": "p:green",
           "background_templates": [
             "{{ if gt .Code 0 }}p:red{{ end }}"
@@ -93,7 +110,7 @@
           "style": "diamond",
           "invert_powerline": true,
           "background": "p:blue",
-          "foreground": "p:black",
+          "foreground": "p:base",
           "template": "  {{ .CurrentDate | date .Format }} ",
           "properties": {
             "time_format": "3:04 PM"

@@ -1,0 +1,8 @@
+git:
+  log:
+    showGraph: always
+gui:
+  border: 'rounded'
+  nerdFontsVersion: 3
+  sidePanelWidth: 0.5
+  expandFocusedSidePanel: true
