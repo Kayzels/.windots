@@ -15,7 +15,9 @@ Set-PSReadLineOption -Colors @{ InlinePrediction = '#808080'}
 Set-PSReadLineOption -PredictionViewStyle ListView
 # Change history to fill in only those that start with what's typed
 Set-PSReadLineKeyHandler -Key UpArrow -Function HistorySearchBackward
+Set-PSReadLineKeyHandler -Chord "Ctrl+p" -Function HistorySearchBackward
 Set-PSReadLineKeyHandler -Key DownArrow -Function HistorySearchForward
+Set-PSReadLineKeyHandler -Chord "Ctrl+n" -Function HistorySearchForward
 # Because defaults overridden, get that behaviour with ctrl arrow
 Set-PSReadLineKeyHandler -Key Ctrl+UpArrow -Function PreviousHistory
 Set-PSReadLineKeyHandler -Key Ctrl+DownArrow -Function NextHistory
