@@ -1,9 +1,9 @@
-local wezterm = require("wezterm")
-
 local M = {}
 
+M.scheme = "tokyonight_moon"
+
 function M.apply_to_config(config)
-	config.color_scheme = "tokyonight_moon"
+	config.color_scheme = M.scheme
 end
 
 return M
