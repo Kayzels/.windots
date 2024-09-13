@@ -213,13 +213,26 @@ function DefaultColorMode
   }
 }
 
-Function nvim
+# -------------------------------------------
+# Aliases
+# -------------------------------------------
+function nvim
 {
-  $mode = [Environment]::GetEnvironmentVariable('NvimColorMode', 'User')
-  $nvim_cmd = 'let g:color_mode = "' + $mode + '"'
-  nvim.exe --cmd $nvim_cmd
-}
+  param(
+    [string]$nvimArgs
+  )
+  # Call nvim with setting a value for background to be light or dark
 
+  $mode = [Environment]::GetEnvironmentVariable('NvimColorMode', 'User')
+  $nvim_cmd = 'set background=' + $mode
+
+  if ([string]::IsNullOrEmpty($nvimArgs))
+  {
+    nvim.exe --cmd $nvim_cmd
+  } else
+  {
+    nvim.exe --cmd $nvim_cmd $nvimArgs 
+  }
 }
 
 }
