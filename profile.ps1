@@ -126,6 +126,10 @@ oh-my-posh init pwsh --config "$HOME\omp_themes\kyzan.omp.json" | Invoke-Express
 
 function SetColorMode
 {
+  <#
+  .SYNOPSIS
+    Set whether the terminal should be dark mode or light mode
+  #>
   param(
     [string]$ColorMode
   )
@@ -160,10 +164,12 @@ function SetColorMode
   if ($ColorMode -eq "light")
   {
     $sedPattern = 's/' + $darkTheme + '/' + $lightTheme + '/'
+    $wezSedPattern = 's/M.scheme = "' + $darkTheme + '"/' + 'M.scheme = "' + $lightTheme + '"/'
     $ompSedPattern = 's/"ColorMode": "dark"/"ColorMode": "light"/'
   } else
   {
     $sedPattern = 's/' + $lightTheme + '/' + $darkTheme + '/'
+    $wezSedPattern = 's/M.scheme = "' + $lightTheme + '"/' + 'M.scheme = "' + $darkTheme + '"/'
     $ompSedPattern = 's/"ColorMode": "light"/"ColorMode": "dark"/'
   }
 
@@ -171,7 +177,7 @@ function SetColorMode
   sed -i $sedPattern $Env:WindotsRepo\yazi\config\theme.toml
 
   # Update Wezterm colorscheme using sed rather than uservars
-  sed -i $sedPattern $Env:WindotsRepo\wezterm\colorscheme.lua
+  sed -i $wezSedPattern $Env:WindotsRepo\wezterm\colorscheme.lua
 
   # Update Oh My Posh palette using sed to update var
   sed -i $ompSedPattern $Env:WindotsRepo\omp_themes\kyzan.omp.json
@@ -180,8 +186,23 @@ function SetColorMode
   sed -i $sedPattern $Env:WindotsRepo\bat\config
 }
 
+# Aliases for setting dark mode and light mode quickly
+function setd
+{
+  SetColorMode dark
+}
+
+function setl
+{
+  SetColorMode light
+}
+
 function DefaultColorMode
 {
+  <#
+  .SYNOPSIS
+    Sets a default color mode of dark, if color mode is not set.
+  #>
   $mode = [Environment]::GetEnvironmentVariable('NvimColorMode', 'User')
   if ($null -eq $mode)
   {
@@ -199,16 +220,15 @@ Function nvim
   nvim.exe --cmd $nvim_cmd
 }
 
-Function setd
-{
-  SetColorMode dark
 }
 
-Function setl
-{
-  SetColorMode light
 }
 
+# -------------------------------------------
+# Final Parts
+# -------------------------------------------
+
+# Set color mode if not set
 DefaultColorMode
 
 # Set zoxide. Must be at the end of the script to work properly.
