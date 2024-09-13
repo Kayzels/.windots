@@ -235,6 +235,10 @@ function nvim
   }
 }
 
+# Common typo I make
+function exitr
+{
+  exit
 }
 
 # -------------------------------------------
