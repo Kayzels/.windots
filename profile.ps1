@@ -121,6 +121,33 @@ function nve
 oh-my-posh init pwsh --config "$HOME\omp_themes\kyzan.omp.json" | Invoke-Expression
 
 # -------------------------------------------
+# Wezterm Background Changing
+# -------------------------------------------
+
+function Set-UseBack
+{
+  <#
+  .SYNOPSIS
+    Set whether to use background images in Wezterm or not.
+  #>
+  param(
+    [Parameter(Mandatory=$true)]
+    [bool]$useBack
+  )
+  if ($useBack)
+  {
+    sed -i 's/M.useBack = false/M.useBack = true/' $Env:WindotsRepo\wezterm\colorscheme.lua
+    Set-ItemProperty -Path HKCU:\Environment -Name 'WezBack' -Value "true"
+  } else
+  {
+    sed -i 's/M.useBack = true/M.useBack = false/' $Env:WindotsRepo\wezterm\colorscheme.lua
+    Set-ItemProperty -Path HKCU:\Environment -Name 'WezBack' -Value "false"
+  }
+}
+
+Set-Alias -Name ub -Value Set-UseBack
+
+# -------------------------------------------
 # Color scheme changing
 # -------------------------------------------
 
