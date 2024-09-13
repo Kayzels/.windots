@@ -43,12 +43,6 @@ Import-Module cd-extras
 Import-Module -Name Terminal-Icons
 
 # -------------------------------------------
-# Zoxide
-# -------------------------------------------
-
-Invoke-Expression (& { (zoxide init powershell --hook pwd | Out-String) })
-
-# -------------------------------------------
 # Yazi
 # -------------------------------------------
 
@@ -212,3 +206,6 @@ Function setl
 }
 
 DefaultColorMode
+
+# Set zoxide. Must be at the end of the script to work properly.
+Invoke-Expression (& { (zoxide init powershell --hook prompt | Out-String) })
