@@ -82,7 +82,10 @@ function Find-Windots
 # -------------------------------------------
 # Env Variables
 # -------------------------------------------
-$Env:WindotsRepo = Find-Windots -ProfilePath $PSScriptRoot
+
+$WindotsRepo = Find-Windots -ProfilePath $PSScriptRoot
+Set-ItemProperty -Path HKCU:\Environment -Name 'WindotsRepo' -Value $WindotsRepo
+$Env:WindotsRepo = $WindotsRepo
 $Env:BAT_CONFIG_DIR = "$Env:WindotsRepo\bat"
 $Env:FZF_DEFAULT_OPTS_FILE = "$Env:WindotsRepo\fzf\config"
 
@@ -106,6 +109,7 @@ function nvr
     nve $args
   }
 }
+
 function nve
 {
   nvim --listen "$env:NVIM_LISTEN_ADDRESS" $args
