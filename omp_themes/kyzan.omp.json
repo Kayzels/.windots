@@ -41,14 +41,15 @@
         {
           "type": "os",
           "style": "diamond",
+          "leading_diamond": "",
           "background": "p:blue",
           "foreground": "p:base",
           "template": " {{ .Icon }} {{ .HostName }} "
         },
         {
           "type": "path",
-          "style": "powerline",
-          "powerline_symbol": "",
+          "style": "diamond",
+          "trailing_diamond": " ",
           "background": "p:gutter_back",
           "foreground": "p:blue",
           "template": "   {{ .Path }} ",
@@ -64,8 +65,9 @@
         },
         {
           "type": "git",
-          "style": "powerline",
-          "powerline_symbol": "",
+          "style": "diamond",
+          "leading_diamond": "",
+          "trailing_diamond": " ",
           "foreground": "p:fg_sidebar",
           "background": "p:bg_statusline",
           "template": " {{ .UpstreamIcon }}{{ .HEAD }}{{ if .Working.Changed }}   {{ .Working.Added }}  {{ .Working.Modified }}  {{ .Working.Deleted }} {{ end }}",
@@ -75,17 +77,6 @@
             "fetch_status": true,
             "fetch_upstream_icon": true
           }
-        },
-        {
-          "type": "status",
-          "style": "powerline",
-          "powerline_symbol": "",
-          "foreground": "p:base",
-          "background": "p:green",
-          "background_templates": [
-            "{{ if gt .Code 0 }}p:red{{ end }}"
-          ],
-          "template": " {{ if gt .Code 0 }}   {{ else }}   {{ end }}"
         }
       ]
     },
@@ -94,9 +85,21 @@
       "alignment": "right",
       "segments": [
         {
+          "type": "status",
+          "style": "diamond",
+          "leading_diamond": "",
+          "trailing_diamond": " ",
+          "foreground": "p:base",
+          "background": "p:green",
+          "background_templates": [
+            "{{ if gt .Code 0 }}p:red{{ end }}"
+          ],
+          "template": "{{ if gt .Code 0 }}   {{ else }}    {{ end }}"
+        },
+        {
           "type": "executiontime",
-          "style": "powerline",
-          "powerline_symbol": "",
+          "style": "diamond",
+          "leading_diamond": "",
           "foreground": "p:blue",
           "background": "p:gutter_back",
           "template": "  {{ .FormattedMs }} ",
@@ -108,7 +111,7 @@
         {
           "type": "time",
           "style": "diamond",
-          "invert_powerline": true,
+          "trailing_diamond": "",
           "background": "p:blue",
           "foreground": "p:base",
           "template": "  {{ .CurrentDate | date .Format }} ",
