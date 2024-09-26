@@ -145,7 +145,22 @@ function Set-UseBack
   }
 }
 
-Set-Alias -Name ub -Value Set-UseBack
+function Switch-UseBack
+{
+  $back = Get-ItemPropertyValue -Path HKCU:\Environment -Name 'WezBack'
+  # $back = [Environment]::GetEnvironmentVariable('WezBack', 'User')
+  if ($back -eq "true")
+  {
+    $useBack = $false
+  } else
+  {
+    $useBack = $true
+  }
+  Set-UseBack $useBack
+}
+
+Set-Alias -Name ub -Value Switch-UseBack
+Set-Alias -Name SetUseBack -Value Set-UseBack
 
 # -------------------------------------------
 # Color scheme changing
