@@ -166,7 +166,7 @@ Set-Alias -Name SetUseBack -Value Set-UseBack
 # Color scheme changing
 # -------------------------------------------
 
-function SetColorMode
+function Set-ColorMode
 {
   <#
   .SYNOPSIS
@@ -228,32 +228,56 @@ function SetColorMode
   sed -i $sedPattern $Env:WindotsRepo\bat\config
 }
 
+Set-Alias -Name SetColorMode -Value Set-ColorMode
+
 # Aliases for setting dark mode and light mode quickly
 function setd
 {
-  SetColorMode dark
+  Set-ColorMode dark
 }
 
 function setl
 {
-  SetColorMode light
+  Set-ColorMode light
 }
 
-function DefaultColorMode
+function Initialize-ColorMode
 {
   <#
   .SYNOPSIS
     Sets a default color mode of dark, if color mode is not set.
   #>
-  $mode = [Environment]::GetEnvironmentVariable('NvimColorMode', 'User')
+  $mode = Get-ItemPropertyValue -Path HKCU:\Environment -Name 'NvimColorMode'
+  # Set-ItemProperty -Path HKCU:\Environment -Name 'NvimColorMode' -Value $ColorMode
+  # $mode = [Environment]::GetEnvironmentVariable('NvimColorMode', 'User')
   if ($null -eq $mode)
   {
-    SetColorMode "dark";
+    Set-ColorMode "dark";
   } else
   {
-    SetColorMode $mode
+    Set-ColorMode $mode
   }
 }
+
+function Switch-ColorMode
+{
+  $mode = Get-ItemPropertyValue -Path HKCU:\Environment -Name 'NvimColorMode'
+  # $mode = [Environment]::GetEnvironmentVariable('NvimColorMode', 'User')
+  if ($null -eq $mode)
+  {
+    Initialize-ColorMode
+    return
+  }
+  if ($mode -eq "light")
+  {
+    Set-ColorMode dark
+  } else
+  {
+    Set-ColorMode light
+  }
+}
+
+Set-Alias -Name setc -Value Switch-ColorMode
 
 # -------------------------------------------
 # Aliases
@@ -265,7 +289,8 @@ function nvim
   )
   # Call nvim with setting a value for background to be light or dark
 
-  $mode = [Environment]::GetEnvironmentVariable('NvimColorMode', 'User')
+  $mode = Get-ItemPropertyValue -Path HKCU:\Environment -Name 'NvimColorMode'
+  # $mode = [Environment]::GetEnvironmentVariable('NvimColorMode', 'User')
   $nvim_cmd = 'set background=' + $mode
 
   if ([string]::IsNullOrEmpty($nvimArgs))
@@ -288,7 +313,7 @@ function exitr
 # -------------------------------------------
 
 # Set color mode if not set
-DefaultColorMode
+Initialize-ColorMode
 
 # Set zoxide. Must be at the end of the script to work properly.
 Invoke-Expression (& { (zoxide init powershell --hook prompt | Out-String) })
