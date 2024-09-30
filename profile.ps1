@@ -148,7 +148,6 @@ function Set-UseBack
 function Switch-UseBack
 {
   $back = Get-ItemPropertyValue -Path HKCU:\Environment -Name 'WezBack'
-  # $back = [Environment]::GetEnvironmentVariable('WezBack', 'User')
   if ($back -eq "true")
   {
     $useBack = $false
@@ -248,8 +247,6 @@ function Initialize-ColorMode
     Sets a default color mode of dark, if color mode is not set.
   #>
   $mode = Get-ItemPropertyValue -Path HKCU:\Environment -Name 'NvimColorMode'
-  # Set-ItemProperty -Path HKCU:\Environment -Name 'NvimColorMode' -Value $ColorMode
-  # $mode = [Environment]::GetEnvironmentVariable('NvimColorMode', 'User')
   if ($null -eq $mode)
   {
     Set-ColorMode "dark";
@@ -262,7 +259,6 @@ function Initialize-ColorMode
 function Switch-ColorMode
 {
   $mode = Get-ItemPropertyValue -Path HKCU:\Environment -Name 'NvimColorMode'
-  # $mode = [Environment]::GetEnvironmentVariable('NvimColorMode', 'User')
   if ($null -eq $mode)
   {
     Initialize-ColorMode
@@ -290,7 +286,6 @@ function nvim
   # Call nvim with setting a value for background to be light or dark
 
   $mode = Get-ItemPropertyValue -Path HKCU:\Environment -Name 'NvimColorMode'
-  # $mode = [Environment]::GetEnvironmentVariable('NvimColorMode', 'User')
   $nvim_cmd = 'set background=' + $mode
 
   if ([string]::IsNullOrEmpty($nvimArgs))
