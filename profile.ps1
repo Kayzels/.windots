@@ -2,34 +2,48 @@
 # PSReadLine Setup
 # -------------------------------------------
 
-# Show navigable menu of all options when hitting Tab
-Set-PSReadLineKeyHandler -Key Tab -Function MenuComplete
+function Update-PSReadLine
+{
+  # Enable Predictive Intellisense
+  Set-PSReadLineOption -PredictionSource History
 
-# Enable Predictive Intellisense
-Set-PSReadLineOption -PredictionSource History
-# Use Ctrl-F to fill next suggested word
-Set-PSReadLineKeyHandler -Chord "Ctrl+f" -Function ForwardWord
-# Set Color to be a more clear grey
-Set-PSReadLineOption -Colors @{ InlinePrediction = '#808080'}
-# Show history as a list rather than in line (switch with F2)
-Set-PSReadLineOption -PredictionViewStyle ListView
-# Change history to fill in only those that start with what's typed
-Set-PSReadLineKeyHandler -Key UpArrow -Function HistorySearchBackward
-Set-PSReadLineKeyHandler -Chord "Ctrl+p" -Function HistorySearchBackward
-Set-PSReadLineKeyHandler -Key DownArrow -Function HistorySearchForward
-Set-PSReadLineKeyHandler -Chord "Ctrl+n" -Function HistorySearchForward
-# Because defaults overridden, get that behaviour with ctrl arrow
-Set-PSReadLineKeyHandler -Key Ctrl+UpArrow -Function PreviousHistory
-Set-PSReadLineKeyHandler -Key Ctrl+DownArrow -Function NextHistory
+  # Show history as a list rather than in line (switch with F2)
+  Set-PSReadLineOption -PredictionViewStyle ListView
 
-# Set colors
-Set-PSReadLineOption -Colors @{
-  Command = "`e[1;94m" # blue, bold
-  Error   = "DarkRed"
-  String  = "DarkGreen"
-  Comment = "`e[90;3m" # darkgray, italic
-  Parameter = "Yellow"
-  Keyword = "Magenta"
+  # Show navigable menu of all options when hitting Tab
+  Set-PSReadLineKeyHandler -Key Tab -Function MenuComplete
+
+  # Set colors
+  Set-PSReadLineOption -Colors @{
+    InlinePrediction = '#808080' # clearer grey
+    Command = "`e[1;94m" # blue, bold
+    Error   = "DarkRed"
+    String  = "DarkGreen"
+    Comment = "`e[90;3m" # darkgray, italic
+    Parameter = "Yellow"
+    Keyword = "Magenta"
+  }
+
+  # Use Ctrl-F to fill next suggested word
+  Set-PSReadLineKeyHandler -Chord "Ctrl+f" -Function ForwardWord
+
+  # Change history to fill in only those that start with what's typed
+  Set-PSReadLineKeyHandler -Key UpArrow -Function HistorySearchBackward
+  Set-PSReadLineKeyHandler -Chord "Ctrl+p" -Function HistorySearchBackward
+  Set-PSReadLineKeyHandler -Key DownArrow -Function HistorySearchForward
+  Set-PSReadLineKeyHandler -Chord "Ctrl+n" -Function HistorySearchForward
+
+  # Because defaults overridden, get that behaviour with ctrl arrow
+  Set-PSReadLineKeyHandler -Key Ctrl+UpArrow -Function PreviousHistory
+  Set-PSReadLineKeyHandler -Key Ctrl+DownArrow -Function NextHistory
+}
+
+# NOTE: Set-PSReadLineOption messes up output in Neovim for ! commands
+# So, only set these options when in an Interactive mode,
+# which won't happen with Neovim
+if (-not [Environment]::GetCommandLineArgs().Contains('-NonInteractive'))
+{
+  Update-PSReadLine
 }
 
 # -------------------------------------------
