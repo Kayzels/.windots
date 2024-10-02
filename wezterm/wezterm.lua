@@ -22,7 +22,11 @@ config.front_end = "WebGpu"
 config.use_fancy_tab_bar = true
 
 config.font = wezterm.font_with_fallback({
-	{ family = "JetBrainsMono Nerd Font", weight = "Medium" },
+	{
+		family = "JetBrainsMono Nerd Font",
+		weight = "Medium",
+		harfbuzz_features = { "cv07", "cv08", "cv12", "cv14" },
+	},
 	"Cambria Math",
 })
 config.font_size = 10.0
