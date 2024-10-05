@@ -77,6 +77,9 @@ wezterm.on("toggle-acrylic", function(window, _)
 	window:set_config_overrides(overrides)
 end)
 
+-- timeout_milliseconds defaults to 1000 and can be omitted
+config.leader = { key = "a", mods = "ALT", timeout_milliseconds = 2000 }
+
 config.keys = {
 	{
 		key = " ",
@@ -124,9 +127,9 @@ config.keys = {
 		action = wezterm.action.EmitEvent("toggle-focus-mode"),
 	},
 	{
-		key = "a",
-		mods = "ALT",
-		action = wezterm.action.EmitEvent("toggle-acrylic"),
+		key = "f",
+		mods = "LEADER",
+		action = wezterm.action.EmitEvent("toggle-focus-mode"),
 	},
 	{
 		key = "t",
@@ -142,6 +145,23 @@ config.keys = {
 		action = act.SendKey({
 			key = "c",
 			mods = "ALT",
+		}),
+	},
+	{
+		key = "a",
+		mods = "LEADER|ALT",
+		action = wezterm.action.SendKey({ key = "a", mods = "ALT" }),
+	},
+	{
+		key = "t",
+		mods = "LEADER",
+		action = wezterm.action.PromptInputLine({
+			description = "Enter new name for tab",
+			action = wezterm.action_callback(function(window, pane, line)
+				if line then
+					window:active_tab():set_title(line)
+				end
+			end),
 		}),
 	},
 }
