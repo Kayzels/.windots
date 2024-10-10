@@ -221,11 +221,13 @@ function Set-ColorMode
     $sedPattern = 's/' + $darkTheme + '/' + $lightTheme + '/'
     $wezSedPattern = 's/M.scheme = "' + $darkTheme + '"/' + 'M.scheme = "' + $lightTheme + '"/'
     $ompSedPattern = 's/"ColorMode": "dark"/"ColorMode": "light"/'
+    $nvimSedPattern = 's/M.colormode = "dark"/M.colormode = "light"/'
   } else
   {
     $sedPattern = 's/' + $lightTheme + '/' + $darkTheme + '/'
     $wezSedPattern = 's/M.scheme = "' + $lightTheme + '"/' + 'M.scheme = "' + $darkTheme + '"/'
     $ompSedPattern = 's/"ColorMode": "light"/"ColorMode": "dark"/'
+    $nvimSedPattern = 's/M.colormode = "light"/M.colormode = "dark"/'
   }
 
   # Update yazi flavor using sed
@@ -239,6 +241,9 @@ function Set-ColorMode
 
   # Update Bat to use correct theme using sed
   sed -i $sedPattern $Env:WindotsRepo\bat\config
+
+  # Update nvim colortheme
+  sed -i $nvimSedPattern $Env:WindotsRepo\nvim\lua\config\colormode.lua
 }
 
 Set-Alias -Name SetColorMode -Value Set-ColorMode
@@ -292,24 +297,6 @@ Set-Alias -Name setc -Value Switch-ColorMode
 # -------------------------------------------
 # Aliases
 # -------------------------------------------
-function nvim
-{
-  param(
-    [string]$nvimArgs
-  )
-  # Call nvim with setting a value for background to be light or dark
-
-  $mode = Get-ItemPropertyValue -Path HKCU:\Environment -Name 'NvimColorMode'
-  $nvim_cmd = 'set background=' + $mode
-
-  if ([string]::IsNullOrEmpty($nvimArgs))
-  {
-    nvim.exe --cmd $nvim_cmd
-  } else
-  {
-    nvim.exe --cmd $nvim_cmd $nvimArgs 
-  }
-}
 
 # Common typo I make
 function exitr
