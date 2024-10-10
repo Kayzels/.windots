@@ -110,23 +110,26 @@ Set-PsFzfOption -EnableFd -EnableAliasFuzzyHistory -EnableAliasFuzzySetLocation
 # Remote
 # -------------------------------------------
 
-$Env:NVIM_LISTEN_ADDRESS = "\\.\pipe\nvim-nvr"
-
-# NOTE: Pure nvim way doesn't work properly, so ensure nvim-remote is installed by running
-# pip install nvim-remote
+# Don't use environment variable for Nvim Remote: causes new instances of Nvim to crash
+$listenAddress = "\\.\pipe\nvim-nvr"
 
 function nvr
 {
-  &(Get-Command nvr -CommandType Application) -s --nostart -p $args;
-  if ($LastExitCode -ne 0)
+  if (Test-Path -Path $listenAddress)
   {
-    nve $args
+    nvim --server $listenAddress --remote-tab $args
+  } else
+  {
+    nvim --listen $listenAddress $args
   }
 }
 
+# Do functionality in one function rather than split.
+# I never remember which is nve and which is nvr,
+# so just make nve an alias of nvr
 function nve
 {
-  nvim --listen "$env:NVIM_LISTEN_ADDRESS" $args
+  nvr $args
 }
 
 # -------------------------------------------
