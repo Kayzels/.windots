@@ -306,6 +306,14 @@ function exitr
 {
   exit
 }
+function q
+{
+  exit
+}
+function qa
+{
+  exit
+}
 
 # -------------------------------------------
 # Final Parts
