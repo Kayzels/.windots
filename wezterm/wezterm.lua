@@ -23,14 +23,19 @@ config.use_fancy_tab_bar = true
 
 config.font = wezterm.font_with_fallback({
 	{
+		family = "Maple Mono Seven NF",
+		harfbuzz_features = { "zero", "cv01", "cv03" },
+	},
+	{
 		family = "JetBrainsMono Nerd Font",
 		weight = "Medium",
-		harfbuzz_features = { "cv07", "cv08", "cv12", "cv14" },
+		harfbuzz_features = { "cv08", "cv12", "cv14" },
 	},
 	"Cambria Math",
 })
 config.font_size = 10.0
 config.font_rules = {
+	-- Sticking with Maple Mono NF for now, but Version 6, not 7, because cursive seems to be gone in 7.
 	{
 		intensity = "Bold",
 		italic = true,
