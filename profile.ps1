@@ -151,21 +151,23 @@ function Set-UseBack
     [Parameter(Mandatory=$true)]
     [bool]$useBack
   )
+  $useBackString = $useBack.ToString()
   if ($useBack)
   {
-    sed -i 's/M.useBack = false/M.useBack = true/' $Env:WindotsRepo\wezterm\colorscheme.lua
-    Set-ItemProperty -Path HKCU:\Environment -Name 'WezBack' -Value "true"
+    $sedPattern = 's/M.useBack = false/M.useBack = true/'
   } else
   {
-    sed -i 's/M.useBack = true/M.useBack = false/' $Env:WindotsRepo\wezterm\colorscheme.lua
-    Set-ItemProperty -Path HKCU:\Environment -Name 'WezBack' -Value "false"
+    $sedPattern = 's/M.useBack = true/M.useBack = false/'
   }
+  sed -i $sedPattern $Env:WindotsRepo\wezterm\colorscheme.lua
+  sed -i $sedPattern $Env:WindotsRepo\nvim\lua\config\colormode.lua
+  Set-ItemProperty -Path HKCU:\Environment -Name 'WezBack' -Value $useBackString
 }
 
 function Switch-UseBack
 {
   $back = Get-ItemPropertyValue -Path HKCU:\Environment -Name 'WezBack'
-  if ($back -eq "true")
+  if ($back -eq $true.ToString())
   {
     $useBack = $false
   } else
@@ -173,6 +175,12 @@ function Switch-UseBack
     $useBack = $true
   }
   Set-UseBack $useBack
+}
+
+function Get-UseBack
+{
+  $back = Get-ItemPropertyValue -Path HKCU:\Environment -Name 'WezBack'
+  return $back
 }
 
 Set-Alias -Name ub -Value Switch-UseBack
@@ -249,6 +257,17 @@ function Set-ColorMode
   sed -i $nvimSedPattern $Env:WindotsRepo\nvim\lua\config\colormode.lua
 }
 
+function Get-ColorMode
+{
+  $mode = Get-ItemPropertyValue -Path HKCU:\Environment -Name 'NvimColorMode'
+  if ($null -eq $mode)
+  {
+    Set-ColorMode "dark";
+    return "dark"
+  }
+  return $mode
+}
+
 Set-Alias -Name SetColorMode -Value Set-ColorMode
 
 # Aliases for setting dark mode and light mode quickly
@@ -272,9 +291,6 @@ function Initialize-ColorMode
   if ($null -eq $mode)
   {
     Set-ColorMode "dark";
-  } else
-  {
-    Set-ColorMode $mode
   }
 }
 
