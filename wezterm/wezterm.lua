@@ -34,6 +34,7 @@ config.font = wezterm.font_with_fallback({
 	"Cambria Math",
 })
 config.font_size = 11.0
+config.adjust_window_size_when_changing_font_size = false
 config.font_rules = {
 	-- Sticking with Maple Mono NF for now, but Version 6, not 7, because cursive seems to be gone in 7.
 	{
