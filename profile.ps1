@@ -340,3 +340,18 @@ Initialize-ColorMode
 
 # Set zoxide. Must be at the end of the script to work properly.
 Invoke-Expression (& { (zoxide init powershell --hook prompt | Out-String) })
+
+function nvis
+{
+  param(
+    [string]$nvimArgs
+  )
+
+  if ([string]::IsNullOrEmpty($nvimArgs))
+  {
+    C:\Users\Kyzan\scoop\shims\nvim.exe
+  } else
+  {
+    C:\Users\Kyzan\scoop\shims\nvim.exe $nvimArgs
+  }
+}
