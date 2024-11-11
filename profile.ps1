@@ -220,6 +220,8 @@ function Set-ColorMode
   $lazygitTheme = Get-Content "$Env:WindotsRepo\lazygit\$ColorMode.txt"
   Set-Content -Path $lazygitConfigFile -Value $lazygitDefaults
   Add-Content -Path $lazygitConfigFile -Value $lazygitTheme
+  $Env:LG_CONFIG_FILE="$Env:WindotsRepo\lazygit\config.yml"
+  Set-ItemProperty -Path HKCU:\Environment -Name 'LG_CONFIG_FILE' -Value "$Env:WindotsRepo\lazygit\config.yml"
 
   # Set fzf options
   $fzfDefaults = Get-Content "$Env:WindotsRepo\fzf\default"
