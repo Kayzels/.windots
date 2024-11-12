@@ -77,6 +77,18 @@
             "fetch_status": true,
             "fetch_upstream_icon": true
           }
+        },
+        {
+          "type": "python",
+          "style": "diamond",
+          "leading_diamond": "",
+          "trailing_diamond": " ",
+          "background": "p:gutter_back",
+          "foreground": "p:blue",
+          "properties": {
+            "display_default": false,
+            "folder_name_fallback": false
+          }
         }
       ]
     },
