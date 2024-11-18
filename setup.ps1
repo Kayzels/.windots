@@ -10,6 +10,7 @@ $symlinks = @{
   "$HOME\.glaze-wm" = ".\glaze-wm"
   "$HOME\AppData\Roaming\yazi" = ".\yazi"
   "$HOME\omp_themes" = ".\omp_themes"
+  "$HOME\AppData\Local\Packages\Microsoft.WindowsTerminalPreview_8wekyb3d8bbwe\LocalState" = ".\windowsterminal"
 }
 
 $scoopDeps = @(

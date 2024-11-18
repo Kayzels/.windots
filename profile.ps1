@@ -236,12 +236,14 @@ function Set-ColorMode
     $wezSedPattern = 's/M.scheme = "' + $darkTheme + '"/' + 'M.scheme = "' + $lightTheme + '"/'
     $ompSedPattern = 's/"ColorMode": "dark"/"ColorMode": "light"/'
     $nvimSedPattern = 's/M.colormode = "dark"/M.colormode = "light"/'
+    $termPattern = 's/"colorScheme": "Tokyonight Custom"/"colorScheme": "Catppuccin Latte"/'
   } else
   {
     $sedPattern = 's/' + $lightTheme + '/' + $darkTheme + '/'
     $wezSedPattern = 's/M.scheme = "' + $lightTheme + '"/' + 'M.scheme = "' + $darkTheme + '"/'
     $ompSedPattern = 's/"ColorMode": "light"/"ColorMode": "dark"/'
     $nvimSedPattern = 's/M.colormode = "light"/M.colormode = "dark"/'
+    $termPattern = 's/"colorScheme": "Catppuccin Latte"/"colorScheme": "Tokyonight Custom"/'
   }
 
   # Update yazi flavor using sed
@@ -258,6 +260,9 @@ function Set-ColorMode
 
   # Update nvim colortheme
   sed -i $nvimSedPattern $Env:WindotsRepo\nvim\lua\config\colormode.lua
+
+  # Update Windows Terminal colorscheme
+  sed -i $termPattern $Env:WindotsRepo\windowsterminal\settings.json
 }
 
 function Get-ColorMode

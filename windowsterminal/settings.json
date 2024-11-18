@@ -1,0 +1,198 @@
+{
+    "$help": "https://aka.ms/terminal-documentation",
+    "$schema": "https://aka.ms/terminal-profiles-schema-preview",
+    "actions": [
+        {
+            "command": {
+                "action": "sendInput",
+                "input": "\u001b[13;2u"
+            },
+            "id": "User.sendInput.8882FD6D"
+        },
+        {
+            "command": {
+                "action": "sendInput",
+                "input": "\u001b[9;5u"
+            },
+            "id": "User.sendInput.24C6F4B1"
+        },
+        {
+            "command": {
+                "action": "sendInput",
+                "input": "\u001b[13;5u"
+            },
+            "id": "User.sendInput.F8A79DCB"
+        },
+        {
+            "command": {
+                "action": "sendInput",
+                "input": "\u001b[32;2u"
+            },
+            "id": "User.sendInput.A2FE21EB"
+        },
+        {
+            "command": {
+                "action": "sendInput",
+                "input": "\u001b[32;5u"
+            },
+            "id": "User.sendInput.E116B028"
+        }
+    ],
+    "copyFormatting": "none",
+    "copyOnSelect": false,
+    "defaultProfile": "{574e775e-4f2a-5b96-ac1e-a2962a402336}",
+    "initialRows": 50,
+    "keybindings": [
+        {
+            "id": "Terminal.CopyToClipboard",
+            "keys": "ctrl+c"
+        },
+        {
+            "id": "Terminal.ScrollUp",
+            "keys": "ctrl+shift+k"
+        },
+        {
+            "id": "Terminal.FindText",
+            "keys": "ctrl+shift+f"
+        },
+        {
+            "id": "User.sendInput.F8A79DCB",
+            "keys": "ctrl+enter"
+        },
+        {
+            "id": "Terminal.ScrollDown",
+            "keys": "ctrl+shift+j"
+        },
+        {
+            "id": "Terminal.DuplicatePaneAuto",
+            "keys": "alt+shift+d"
+        },
+        {
+            "id": "User.sendInput.8882FD6D",
+            "keys": "shift+enter"
+        },
+        {
+            "id": "User.sendInput.A2FE21EB",
+            "keys": "shift+space"
+        },
+        {
+            "id": "User.sendInput.E116B028",
+            "keys": "ctrl+space"
+        },
+        {
+            "id": "User.sendInput.24C6F4B1",
+            "keys": "ctrl+tab"
+        }
+    ],
+    "launchMode": "default",
+    "newTabMenu": [
+        {
+            "type": "remainingProfiles"
+        }
+    ],
+    "profiles": {
+        "defaults": {
+            "antialiasingMode": "grayscale",
+            "colorScheme": "Tokyonight Custom",
+            "font": {
+                "face": "Maple Mono Seven NF",
+                "size": 11,
+                "weight": "normal"
+            },
+            "intenseTextStyle": "bold",
+            "opacity": 90,
+            "padding": "5",
+            "scrollbarState": "hidden",
+            "startingDirectory": "%USERPROFILE%",
+            "useAcrylic": true
+        },
+        "list": [
+            {
+                "commandline": "%SystemRoot%\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+                "guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
+                "hidden": false,
+                "name": "Windows PowerShell",
+                "startingDirectory": null
+            },
+            {
+                "commandline": "%SystemRoot%\\System32\\cmd.exe",
+                "guid": "{0caa0dad-35be-5f56-a8ff-afceeeaa6101}",
+                "hidden": false,
+                "name": "Command Prompt",
+                "startingDirectory": null
+            },
+            {
+                "guid": "{574e775e-4f2a-5b96-ac1e-a2962a402336}",
+                "hidden": false,
+                "name": "PowerShell",
+                "scrollbarState": "hidden",
+                "source": "Windows.Terminal.PowershellCore",
+                "suppressApplicationTitle": true,
+                "tabTitle": "PowerShell 7"
+            },
+            {
+                "closeOnExit": "always",
+                "guid": "{2c4de342-38b7-51cf-b940-2309a097f518}",
+                "hidden": false,
+                "name": "Ubuntu",
+                "opacity": 100,
+                "padding": "5",
+                "source": "Windows.Terminal.Wsl",
+                "startingDirectory": "~",
+                "suppressApplicationTitle": true,
+                "tabTitle": "Ubuntu"
+            }
+        ]
+    },
+    "schemes": [
+        {
+            "background": "#EFF1F5",
+            "black": "#5C5F77",
+            "blue": "#1E66F5",
+            "brightBlack": "#ACB0BE",
+            "brightBlue": "#1E66F5",
+            "brightCyan": "#179299",
+            "brightGreen": "#40A02B",
+            "brightPurple": "#EA76CB",
+            "brightRed": "#D20F39",
+            "brightWhite": "#BCC0CC",
+            "brightYellow": "#DF8E1D",
+            "cursorColor": "#DC8A78",
+            "cyan": "#179299",
+            "foreground": "#4C4F69",
+            "green": "#40A02B",
+            "name": "Catppuccin Latte",
+            "purple": "#EA76CB",
+            "red": "#D20F39",
+            "selectionBackground": "#ACB0BE",
+            "white": "#ACB0BE",
+            "yellow": "#DF8E1D"
+        },
+        {
+            "background": "#1D262A",
+            "black": "#1D202F",
+            "blue": "#7AA2F7",
+            "brightBlack": "#636DA6",
+            "brightBlue": "#7AA2F7",
+            "brightCyan": "#7DCFFF",
+            "brightGreen": "#C3E88D",
+            "brightPurple": "#BB9AF7",
+            "brightRed": "#C53B53",
+            "brightWhite": "#C8D3F5",
+            "brightYellow": "#E0AF68",
+            "cursorColor": "#C0CAF5",
+            "cyan": "#7DCFFF",
+            "foreground": "#C0CAF5",
+            "green": "#9ECE6A",
+            "name": "Tokyonight Custom",
+            "purple": "#BB9AF7",
+            "red": "#F7768E",
+            "selectionBackground": "#364A82",
+            "white": "#C8D3F5",
+            "yellow": "#E0AF68"
+        }
+    ],
+    "tabWidthMode": "compact",
+    "themes": [],
+    "useAcrylicInTabRow": false
+}
