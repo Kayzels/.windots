@@ -47,16 +47,6 @@ if (-not [Environment]::GetCommandLineArgs().Contains('-NonInteractive'))
 }
 
 # -------------------------------------------
-# Module Imports
-# -------------------------------------------
-
-# Add extra easier ways to use cd
-Import-Module cd-extras
-
-# Add Icons in Terminal to Get-ChildItem
-Import-Module -Name Terminal-Icons
-
-# -------------------------------------------
 # Yazi
 # -------------------------------------------
 
