@@ -125,8 +125,11 @@ function nve
 # -------------------------------------------
 # Prompt Setup
 # -------------------------------------------
+
+$Env:POSH_THEME = "$HOME\omp_themes\kyzan.omp.json"
 $Env:VIRTUAL_ENV_DISABLE_PROMPT=1
-oh-my-posh init pwsh --config "$HOME\omp_themes\kyzan.omp.json" | Invoke-Expression
+
+oh-my-posh --init --shell pwsh | Invoke-Expression
 
 # -------------------------------------------
 # Wezterm Background Changing
