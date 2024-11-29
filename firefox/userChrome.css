@@ -1,0 +1,46 @@
+/* This requires Firefox 133+ to work */
+
+/* Set the color for toolbox to same as sidebar and tabs */
+:root {
+  --lwt-accent-color-inactive: var(--tabpanel-background-color) !important;
+}
+
+/* Hide tabs from the list, use Sidebery */
+@media (-moz-bool-pref: "sidebar.verticalTabs") {
+  #vertical-tabs.customization-target {
+    display: none !important;
+  }
+}
+
+/* Need to explicitly update this, to it's value, so the color updates */
+#navigator-toolbox {
+  background-color: var(--lwt-accent-color-inactive) !important;
+}
+
+/* Rounded corners for sites being viewed */
+#tabbrowser-tabbox {
+  border-radius: var(--border-radius-medium);
+  box-shadow: var(--content-area-shadow);
+  outline: none !important;
+  border: none !important;
+  overflow: hidden !important;
+  margin: 0 var(--space-xsmall) var(--space-small) !important;
+}
+
+/* Hide border from sidebar */
+@media (-moz-bool-pref: "sidebar.revamp") {
+  #sidebar {
+    border: none !important;
+  }
+}
+
+/* Make sure background of sites is same as tabpanel */
+#browser {
+  background-color: var(--tabpanel-background-color);
+}
+
+/* Tighten drop-down menu spacing */
+menupopup>menuitem,
+menupopup>menu {
+  padding-block: 4px !important;
+}

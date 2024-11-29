@@ -1,0 +1,47 @@
+@-moz-document url(about:home), url(about:newtab) {
+  .top-site-outer .tile {
+    /* background: #9e9dd33a !important; */
+    /* box-shadow: none !important; */
+  }
+  .search-inner-wrapper {
+    display: none !important;
+    height: 0px;
+    margin: 0 !important;
+  }
+  .search-wrapper {
+    padding-bottom: 0 !important;
+  }
+  .top-site-icon{
+    background-color: transparent !important;
+  }
+  .click-target-container *, .top-sites-list * {
+    color: #fff !important ;
+    text-shadow: 1px 1px 1px #222 !important ;
+  }
+  .collapsible-section.section.compact-cards, .collapsible-section.top-sites {
+    /* background-color: #42419bc2; */
+    /* background-color: #590035c2; */
+    background-color: #27695a64;
+    border-radius: 8px !important;
+    padding: 16px !important;
+  }
+  .card-context {
+    clip-path: none !important;
+  }
+  body::before {
+    content: "" ;
+    z-index: -1 ;
+    position: fixed ;
+    top: 0 ;
+    left: 0 ;
+    background: #372644 url(background.jpg) no-repeat center !important;
+    background-size: cover !important;
+    width: 100vw ;
+    height: 100vh ;
+  }
+  
+  body {
+    --newtab-background-color-secondary: #9e9dd37a !important;
+    /* color: #42419bc2; */
+  }
+}
