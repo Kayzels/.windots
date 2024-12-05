@@ -7,15 +7,49 @@ local opacity = 0.92
 
 config.default_prog = { "pwsh" }
 
-local scheme = wezterm.get_builtin_color_schemes()["tokyonight_moon"]
-scheme.background = "#1d262a"
+local tokyo_scheme = wezterm.get_builtin_color_schemes()["tokyonight_moon"]
+tokyo_scheme.background = "#1d262a"
 
 config.color_schemes = {
-	["tokyonight_moon"] = scheme,
+	["tokyonight_moon"] = tokyo_scheme,
 }
 
-local colorscheme = require("colorscheme")
-colorscheme.apply_to_config(config)
+local use_back = true
+
+---@param appearance string
+---@return { scheme: string, img: string}
+local function scheme_for_appearance(appearance)
+	if appearance:find("Dark") then
+		return { scheme = "tokyonight_moon", img = os.getenv("WindotsRepo") .. "\\wezterm\\images\\back_dark.png" }
+	else
+		return { scheme = "catppuccin-latte", img = os.getenv("WindotsRepo") .. "\\wezterm\\images\\back_light.png" }
+	end
+end
+
+wezterm.on("window-config-reloaded", function(window, pane)
+	local overrides = window:get_config_overrides() or {}
+	---@type string
+	local appearance = window:get_appearance()
+	local new_vals = scheme_for_appearance(appearance)
+	if overrides.color_scheme ~= new_vals.scheme then
+		overrides.color_scheme = new_vals.scheme
+	end
+	if use_back and not overrides.background then
+		overrides.background = {
+			{
+				source = {
+					File = new_vals.img,
+				},
+				height = "Cover",
+			},
+		}
+	else
+		if not use_back and overrides.background then
+			overrides.background = nil
+		end
+	end
+	window:set_config_overrides(overrides)
+end)
 
 config.front_end = "WebGpu"
 
@@ -188,5 +222,14 @@ config.mouse_bindings = {
 		end),
 	},
 }
+
+local function get_appearance()
+	if wezterm.gui then
+		return wezterm.gui.get_appearance()
+	end
+	return "Not found"
+end
+
+wezterm.log_info(get_appearance())
 
 return config

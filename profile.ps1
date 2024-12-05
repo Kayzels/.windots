@@ -148,13 +148,15 @@ function Set-UseBack
   $useBackString = $useBack.ToString()
   if ($useBack)
   {
-    $sedPattern = 's/M.useBack = false/M.useBack = true/'
+    $wezSedPattern = 's/local use_back = false/local use_back = true/'
+    $nvimSedPattern = 's/M.useBack = false/M.useBack = true/'
   } else
   {
-    $sedPattern = 's/M.useBack = true/M.useBack = false/'
+    $wezSedPattern = 's/local use_back = true/local use_back = false/'
+    $nvimSedPattern = 's/M.useBack = true/M.useBack = false/'
   }
-  sed -i $sedPattern $Env:WindotsRepo\wezterm\colorscheme.lua
-  sed -i $sedPattern $Env:WindotsRepo\nvim\lua\config\colormode.lua
+  sed -i $wezSedPattern $Env:WindotsRepo\wezterm\wezterm.lua
+  sed -i $nvimSedPattern $Env:WindotsRepo\nvim\lua\config\colormode.lua
   Set-ItemProperty -Path HKCU:\Environment -Name 'WezBack' -Value $useBackString
 }
 
@@ -184,135 +186,12 @@ Set-Alias -Name SetUseBack -Value Set-UseBack
 # Color scheme changing
 # -------------------------------------------
 
-function Set-ColorMode
-{
-  <#
-  .SYNOPSIS
-    Set whether the terminal should be dark mode or light mode
-  #>
-  param(
-    [string]$ColorMode
-  )
-  if ($ColorMode -ne "light" -and $ColorMode -ne "dark")
-  {
-    return
-  }
+. $Env:WindotsRepo/scripts/color.ps1
 
-  # Define theme names
-  $darkTheme = "tokyonight_moon"
-  $lightTheme = "catppuccin-latte"
-
-  # Clear environment variables if needed
-  $Env:BAT_THEME = ""
-  $Env:FZF_DEFAULT_OPTS = ""
-
-  Set-ItemProperty -Path HKCU:\Environment -Name 'NvimColorMode' -Value $ColorMode
-
-  # Set Lazygit colors
-  $lazygitConfigFile = "$Env:WindotsRepo\lazygit\config.yml"
-  $lazygitDefaults = Get-Content "$Env:WindotsRepo\lazygit\default.txt"
-  $lazygitTheme = Get-Content "$Env:WindotsRepo\lazygit\$ColorMode.txt"
-  Set-Content -Path $lazygitConfigFile -Value $lazygitDefaults
-  Add-Content -Path $lazygitConfigFile -Value $lazygitTheme
-  $Env:LG_CONFIG_FILE="$Env:WindotsRepo\lazygit\config.yml"
-  Set-ItemProperty -Path HKCU:\Environment -Name 'LG_CONFIG_FILE' -Value "$Env:WindotsRepo\lazygit\config.yml"
-
-  # Set fzf options
-  $fzfDefaults = Get-Content "$Env:WindotsRepo\fzf\default"
-  $fzfTheme = Get-Content "$Env:WindotsRepo\fzf\$ColorMode"
-  Set-Content -Path $Env:FZF_DEFAULT_OPTS_FILE -Value $fzfDefaults
-  Add-Content -Path $Env:FZF_DEFAULT_OPTS_FILE -Value $fzfTheme
-
-  if ($ColorMode -eq "light")
-  {
-    $sedPattern = 's/' + $darkTheme + '/' + $lightTheme + '/'
-    $wezSedPattern = 's/M.scheme = "' + $darkTheme + '"/' + 'M.scheme = "' + $lightTheme + '"/'
-    $ompSedPattern = 's/"ColorMode": "dark"/"ColorMode": "light"/'
-    $nvimSedPattern = 's/M.colormode = "dark"/M.colormode = "light"/'
-    $termPattern = 's/"colorScheme": "Tokyonight Custom"/"colorScheme": "Catppuccin Latte"/'
-  } else
-  {
-    $sedPattern = 's/' + $lightTheme + '/' + $darkTheme + '/'
-    $wezSedPattern = 's/M.scheme = "' + $lightTheme + '"/' + 'M.scheme = "' + $darkTheme + '"/'
-    $ompSedPattern = 's/"ColorMode": "light"/"ColorMode": "dark"/'
-    $nvimSedPattern = 's/M.colormode = "light"/M.colormode = "dark"/'
-    $termPattern = 's/"colorScheme": "Catppuccin Latte"/"colorScheme": "Tokyonight Custom"/'
-  }
-
-  # Update yazi flavor using sed
-  sed -i $sedPattern $Env:WindotsRepo\yazi\config\theme.toml
-
-  # Update Wezterm colorscheme using sed rather than uservars
-  sed -i $wezSedPattern $Env:WindotsRepo\wezterm\colorscheme.lua
-
-  # Update Oh My Posh palette using sed to update var
-  sed -i $ompSedPattern $Env:WindotsRepo\omp_themes\kyzan.omp.json
-
-  # Update Bat to use correct theme using sed
-  sed -i $sedPattern $Env:WindotsRepo\bat\config
-
-  # Update nvim colortheme
-  sed -i $nvimSedPattern $Env:WindotsRepo\nvim\lua\config\colormode.lua
-
-  # Update Windows Terminal colorscheme
-  sed -i $termPattern $Env:WindotsRepo\windowsterminal\settings.json
-}
-
-function Get-ColorMode
-{
-  $mode = Get-ItemPropertyValue -Path HKCU:\Environment -Name 'NvimColorMode'
-  if ($null -eq $mode)
-  {
-    Set-ColorMode "dark";
-    return "dark"
-  }
-  return $mode
-}
-
-Set-Alias -Name SetColorMode -Value Set-ColorMode
-
-# Aliases for setting dark mode and light mode quickly
-function setd
-{
-  Set-ColorMode dark
-}
-
-function setl
-{
-  Set-ColorMode light
-}
-
-function Initialize-ColorMode
-{
-  <#
-  .SYNOPSIS
-    Sets a default color mode of dark, if color mode is not set.
-  #>
-  $mode = Get-ItemPropertyValue -Path HKCU:\Environment -Name 'NvimColorMode'
-  if ($null -eq $mode)
-  {
-    Set-ColorMode "dark";
-  }
-}
-
-function Switch-ColorMode
-{
-  $mode = Get-ItemPropertyValue -Path HKCU:\Environment -Name 'NvimColorMode'
-  if ($null -eq $mode)
-  {
-    Initialize-ColorMode
-    return
-  }
-  if ($mode -eq "light")
-  {
-    Set-ColorMode dark
-  } else
-  {
-    Set-ColorMode light
-  }
-}
-
-Set-Alias -Name setc -Value Switch-ColorMode
+# Set color mode if not set
+#Update-ColorMode
+#
+#Start-Job -FilePath $Env:WindotsRepo/scripts/update_color.ps1 | Out-Null
 
 # -------------------------------------------
 # Aliases
@@ -335,9 +214,6 @@ function qa
 # -------------------------------------------
 # Final Parts
 # -------------------------------------------
-
-# Set color mode if not set
-Initialize-ColorMode
 
 # Set zoxide. Must be at the end of the script to work properly.
 Invoke-Expression (& { (zoxide init powershell --hook prompt | Out-String) })
